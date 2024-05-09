@@ -1,10 +1,4 @@
-import {
-	cloneElement,
-	isValidElement,
-	useContext,
-	useEffect,
-	useState,
-} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SlotzContext } from "../manager/context";
 import type { Component } from "../manager/types";
 
@@ -53,7 +47,7 @@ export const Slot: React.FC<Props> = (props) => {
 			if (typeof child === "number" || typeof child === "string") {
 				throw new Error("Only element children will work here");
 			}
-			return cloneElement(child, {
+			return React.cloneElement(child, {
 				key: index.toString() + index2.toString(),
 				...childProps,
 			});
@@ -63,12 +57,12 @@ export const Slot: React.FC<Props> = (props) => {
 	if (typeof props.children === "function") {
 		const element = props.children(elements);
 
-		if (isValidElement(element) || element === null) {
+		if (React.isValidElement(element) || element === null) {
 			return element;
 		}
 		throw new Error(
 			"Slot rendered with function must return a valid React Element.",
 		);
 	}
-	return <>{elements}</>;
+	return elements;
 };

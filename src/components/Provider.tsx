@@ -1,5 +1,5 @@
-import React from "react";
-import { type PropsWithChildren, useEffect, useState } from "react";
+import React, { useState } from "react";
+import { type PropsWithChildren, useEffect } from "react";
 import { Manager } from "../manager/Manager";
 import { type ISlotzContext, SlotzContext } from "../manager/context";
 import { SlotzController } from "../manager/events";
@@ -24,7 +24,7 @@ export const Provider: React.FC<PropsWithChildren<ProviderProps>> = ({
 	controller,
 	children,
 }) => {
-	const [state] = React.useState(() => createState(controller));
+	const [state] = useState(() => createState(controller));
 	const [mounted, setMounted] = React.useState(false);
 
 	useEffect(() => {
