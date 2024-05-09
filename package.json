@@ -1,0 +1,65 @@
+{
+  "name": "@marimo-team/react-slotz",
+  "version": "0.1.0",
+  "description": "Teleport React components into anywhere into the react-tree.",
+  "author": "marimo",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "lint": "biome check --apply .",
+    "prepublishOnly": "pnpm build",
+    "release": "bumpp && npm publish",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepare": "simple-git-hooks"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.3",
+    "@vitejs/plugin-react": "^4.2.1",
+    "bumpp": "^9.4.1",
+    "lint-staged": "^15.2.2",
+    "prettier": "3.2.5",
+    "rimraf": "^5.0.5",
+    "simple-git-hooks": "^2.11.1",
+    "tsup": "8.0.2",
+    "typescript": "^5.4.5",
+    "unbuild": "^2.0.0",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-react": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.1",
+    "@types/react": "^18.3.1",
+    "@types/react-test-renderer": "^18.3.0",
+    "mitt": "^3.0.1",
+    "react": "^18.3.1",
+    "react-test-renderer": "^18.3.1"
+  }
+}
