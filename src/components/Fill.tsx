@@ -1,4 +1,4 @@
-import type React from "react";
+import React from "react";
 import { useContext, useEffect, useRef } from "react";
 import { SlotzContext } from "../manager/context";
 
@@ -9,7 +9,7 @@ export interface Props {
 
 export const Fill: React.FC<Props> = (props) => {
 	const { controller } = useContext(SlotzContext);
-	const ref = useRef(Symbol("fill"));
+	const ref = React.useRef(Symbol("fill"));
 
 	useEffect(() => {
 		controller.mount({
