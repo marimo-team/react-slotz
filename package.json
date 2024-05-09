@@ -1,6 +1,6 @@
 {
   "name": "@marimo-team/react-slotz",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Teleport React components into anywhere into the react-tree.",
   "author": "marimo",
   "license": "MIT",
