@@ -27,20 +27,21 @@ export interface State {
 	components: Component[];
 }
 
-export const Slot: React.FC<Props> = (props) => {
+export function useSlot(
+	name: string | symbol,
+	childProps?: { [key: string]: any },
+): React.ReactNode[] {
 	const [components, setComponents] = useState<Component[]>([]);
 	const { manager } = useContext(SlotzContext);
 
 	useEffect(() => {
-		manager.onComponentsChange(props.name, setComponents);
+		manager.onComponentsChange(name, setComponents);
 		return () => {
-			manager.removeOnComponentsChange(props.name, setComponents);
+			manager.removeOnComponentsChange(name, setComponents);
 		};
-	}, [props.name]);
+	}, [name]);
 
-	const { childProps = {} } = props;
-
-	const elements: React.ReactNode[] = components.flatMap((component, index) => {
+	return components.flatMap((component, index) => {
 		const { children } = component;
 
 		return children.map((child, index2) => {
@@ -53,6 +54,10 @@ export const Slot: React.FC<Props> = (props) => {
 			});
 		});
 	});
+}
+
+export const Slot: React.FC<Props> = (props) => {
+	const elements = useSlot(props.name, props.childProps);
 
 	if (typeof props.children === "function") {
 		const element = props.children(elements);
@@ -64,5 +69,6 @@ export const Slot: React.FC<Props> = (props) => {
 			"Slot rendered with function must return a valid React Element.",
 		);
 	}
+
 	return elements;
 };

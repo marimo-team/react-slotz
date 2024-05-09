@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { type PropsWithChildren, useEffect } from "react";
+import React from "react";
+import type { PropsWithChildren } from "react";
 import { Manager } from "../manager/Manager";
 import { type ISlotzContext, SlotzContext } from "../manager/context";
 import { SlotzController } from "../manager/events";
@@ -24,20 +24,17 @@ export const Provider: React.FC<PropsWithChildren<ProviderProps>> = ({
 	controller,
 	children,
 }) => {
-	const [state] = useState(() => createState(controller));
-	const [mounted, setMounted] = React.useState(false);
-
-	useEffect(() => {
-		state.manager.mount();
-		setMounted(true);
+	const [state] = React.useState(() => {
+		const res = createState(controller);
+		res.manager.mount();
+		return res;
+	});
+	// Unmount the manager when the component is unmounted
+	React.useEffect(() => {
 		return () => {
 			state.manager.unmount();
 		};
-	}, [state.manager]);
-
-	if (!mounted) {
-		return null;
-	}
+	}, []);
 
 	return (
 		<SlotzContext.Provider value={state}>{children}</SlotzContext.Provider>
