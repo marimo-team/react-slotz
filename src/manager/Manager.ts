@@ -53,7 +53,7 @@ export class Manager implements IManager {
 			reg.components.push(component);
 
 			// notify listeners
-			reg.listeners.forEach((fn) => fn(reg.components));
+			reg.listeners.forEach((fn) => fn([...reg.components]));
 		} else {
 			this._db.byName.set(name, {
 				listeners: [],
@@ -75,13 +75,11 @@ export class Manager implements IManager {
 			// replace previous element with the new one
 			component.children = newElements as React.ReactChild[];
 
-			const name = component.name;
-
 			// notify listeners
-			const reg = this._db.byName.get(name);
+			const reg = this._db.byName.get(component.name);
 
 			if (reg) {
-				reg.listeners.forEach((fn) => fn(reg.components));
+				reg.listeners.forEach((fn) => fn([...reg.components]));
 			} else {
 				throw new Error("registration was expected to be defined");
 			}
@@ -113,7 +111,7 @@ export class Manager implements IManager {
 		const components = reg.components;
 
 		// remove previous component
-		components.splice(components.indexOf(oldComponent), 1);
+		reg.components = components.filter((c) => c !== oldComponent);
 
 		// Clean up byFill reference
 		this._db.byFill.delete(fill.ref);
@@ -122,7 +120,7 @@ export class Manager implements IManager {
 			this._db.byName.delete(name);
 		} else {
 			// notify listeners
-			reg.listeners.forEach((fn) => fn(reg.components));
+			reg.listeners.forEach((fn) => fn([...reg.components]));
 		}
 	}
 

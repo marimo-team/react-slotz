@@ -1,7 +1,7 @@
 import React from "react";
 import { act, create } from "react-test-renderer";
 import { expect, it } from "vitest";
-import { Fill, Provider, Slot } from "..";
+import { Fill, Provider, Slot, SlotzController } from "..";
 
 class Toolbar extends React.Component<any, any> {
 	static Item = ({ label }: { label: string }) => (
@@ -229,4 +229,73 @@ it("Replaces the contents of the slot with the matching fill when the slot's `na
       </nav>
     </div>
   `);
+});
+
+it("can update a slot's children manually", () => {
+	const controller = new SlotzController();
+	const ref = Symbol("Toolbar.Item");
+
+	let fillComponent: any;
+	act(() => {
+		fillComponent = create(
+			<Provider controller={controller}>
+				<div>
+					<Toolbar />
+				</div>
+			</Provider>,
+		);
+	});
+
+	act(() => {
+		controller.mount({
+			name: "Toolbar.Item",
+			ref: ref,
+			children: <button type="button">Home 1</button>,
+		});
+	});
+
+	expect(fillComponent).toMatchInlineSnapshot(`
+		<div>
+		  <nav>
+		    <button
+		      type="button"
+		    >
+		      Home 1
+		    </button>
+		  </nav>
+		</div>
+	`);
+
+	act(() => {
+		controller.update({
+			name: "Toolbar.Item",
+			ref: ref,
+			children: <button type="button">Home 2</button>,
+		});
+	});
+
+	expect(fillComponent).toMatchInlineSnapshot(`
+		<div>
+		  <nav>
+		    <button
+		      type="button"
+		    >
+		      Home 2
+		    </button>
+		  </nav>
+		</div>
+	`);
+
+	act(() => {
+		controller.unmount({
+			name: "Toolbar.Item",
+			ref: ref,
+		});
+	});
+
+	expect(fillComponent).toMatchInlineSnapshot(`
+		<div>
+		  <nav />
+		</div>
+	`);
 });
