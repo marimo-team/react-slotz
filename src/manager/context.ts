@@ -1,10 +1,10 @@
 import { createContext } from "react";
-import type { SlotzEmitter } from "./events";
+import type { SlotzController } from "./events";
 import type { IManager } from "./types";
 
 export interface ISlotzContext {
 	manager: IManager;
-	bus: SlotzEmitter;
+	controller: SlotzController;
 }
 
 export const SlotzContext = createContext<ISlotzContext>(null!);

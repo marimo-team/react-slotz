@@ -1,20 +1,30 @@
-import mitt from "mitt";
 import type React from "react";
 import { type PropsWithChildren, useEffect, useState } from "react";
 import { Manager } from "../manager/Manager";
 import { type ISlotzContext, SlotzContext } from "../manager/context";
-import type { SlotzEmitter } from "../manager/events";
+import { SlotzController } from "../manager/events";
 
-function createState(): ISlotzContext {
-	const bus: SlotzEmitter = mitt();
+function createState(controller?: SlotzController): ISlotzContext {
+	const con = controller || new SlotzController();
 	return {
-		bus,
-		manager: new Manager(bus),
+		controller: con,
+		manager: new Manager(con.bus),
 	};
 }
 
-export const Provider: React.FC<PropsWithChildren> = ({ children }) => {
-	const [state] = useState(createState);
+interface ProviderProps {
+	/**
+	 * Optionally pass a custom controller
+	 * Useful for using outside of React
+	 */
+	controller?: SlotzController;
+}
+
+export const Provider: React.FC<PropsWithChildren<ProviderProps>> = ({
+	controller,
+	children,
+}) => {
+	const [state] = useState(() => createState(controller));
 	const [mounted, setMounted] = useState(false);
 
 	useEffect(() => {

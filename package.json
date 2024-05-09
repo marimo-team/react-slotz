@@ -1,6 +1,6 @@
 {
   "name": "@marimo-team/react-slotz",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Teleport React components into anywhere into the react-tree.",
   "author": "marimo",
   "license": "MIT",
@@ -30,6 +30,7 @@
     "dist"
   ],
   "scripts": {
+    "ci": "CI=true pnpm run typecheck && pnpm run lint && pnpm run test",
     "build": "unbuild",
     "dev": "unbuild --stub",
     "lint": "biome check --apply .",
@@ -39,7 +40,7 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": "^18.3.1"
+    "react": "^18"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.7.3",

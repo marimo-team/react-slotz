@@ -26,7 +26,7 @@ export interface Props {
 	 */
 	childProps?: { [key: string]: any };
 
-	children: React.ReactNode | ((items: React.ReactNode[]) => React.ReactNode);
+	children?: React.ReactNode | ((items: React.ReactNode[]) => React.ReactNode);
 }
 
 export interface State {

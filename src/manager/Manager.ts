@@ -92,7 +92,9 @@ export class Manager implements IManager {
 		}
 	}
 
-	private handleFillUnmount({ fill }: { fill: Fillable }) {
+	private handleFillUnmount({
+		fill,
+	}: { fill: Pick<Fillable, "ref" | "name"> }) {
 		const oldComponent = this._db.byFill.get(fill.ref);
 
 		if (!oldComponent) {
