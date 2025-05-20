@@ -2,6 +2,8 @@ import { Children } from "react";
 import type { SlotzEmitter } from "./events";
 import type { Component, Fillable, IManager, Listener, Name } from "./types";
 
+const Logger = window.console;
+
 export interface FillRegistration {
 	listeners: Listener[];
 	components: Component[];
@@ -84,9 +86,8 @@ export class Manager implements IManager {
 				throw new Error("registration was expected to be defined");
 			}
 		} else {
-			throw new Error(
-				"[handleFillUpdated] component was expected to be defined",
-			);
+			Logger.error("[handleFillUpdated] component was expected to be defined");
+			return;
 		}
 	}
 
@@ -96,9 +97,8 @@ export class Manager implements IManager {
 		const oldComponent = this._db.byFill.get(fill.ref);
 
 		if (!oldComponent) {
-			throw new Error(
-				"[handleFillUnmount] component was expected to be defined",
-			);
+			Logger.error("[handleFillUnmount] component was expected to be defined");
+			return;
 		}
 
 		const name = oldComponent.name;
