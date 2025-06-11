@@ -2,7 +2,7 @@ import { Children } from "react";
 import type { SlotzEmitter } from "./events";
 import type { Component, Fillable, IManager, Listener, Name } from "./types";
 
-const Logger = window.console;
+const Logger = console;
 
 export interface FillRegistration {
 	listeners: Listener[];
@@ -44,7 +44,11 @@ export class Manager implements IManager {
 	}
 
 	private handleFillMount({ fill }: { fill: Fillable }) {
-		const children = Children.toArray(fill.children) as React.ReactChild[];
+		const children = Children.toArray(fill.children) as (
+			| React.ReactElement<any>
+			| number
+			| string
+		)[];
 		const name = fill.name;
 		const component: Component = { fill, children, name };
 
@@ -75,7 +79,11 @@ export class Manager implements IManager {
 
 		if (component) {
 			// replace previous element with the new one
-			component.children = newElements as React.ReactChild[];
+			component.children = newElements as (
+				| React.ReactElement<any>
+				| number
+				| string
+			)[];
 
 			// notify listeners
 			const reg = this._db.byName.get(component.name);
@@ -153,7 +161,9 @@ export class Manager implements IManager {
 		return registration.components.map((c) => c.fill);
 	}
 
-	public getChildrenByName(name: string): React.ReactChild[] {
+	public getChildrenByName(
+		name: string,
+	): (React.ReactElement<any> | number | string)[] {
 		const registration = this._db.byName.get(name);
 
 		if (!registration) {
