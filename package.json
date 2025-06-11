@@ -48,7 +48,7 @@
     "@testing-library/react": "^16.3.0",
     "@types/react": "^19.1.7",
     "@vitejs/plugin-react": "^4.5.2",
-    "bumpp": "^9.11.1",
+    "bumpp": "^10.0.0",
     "jsdom": "^26.1.0",
     "react": "^19.1.0",
     "tsup": "8.5.0",
