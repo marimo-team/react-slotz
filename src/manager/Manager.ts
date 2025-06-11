@@ -2,7 +2,7 @@ import { Children } from "react";
 import type { SlotzEmitter } from "./events";
 import type { Component, Fillable, IManager, Listener, Name } from "./types";
 
-const Logger = window.console;
+const Logger = console;
 
 export interface FillRegistration {
 	listeners: Listener[];

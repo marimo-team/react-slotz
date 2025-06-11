@@ -40,20 +40,20 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": "^18"
+    "react": "^18 || ^19"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.7.3",
-    "@vitejs/plugin-react": "^4.2.1",
-    "bumpp": "^9.4.1",
+    "@biomejs/biome": "^1.9.4",
+    "@types/react": "^19.1.7",
+    "@types/react-test-renderer": "^19.1.0",
+    "@vitejs/plugin-react": "^4.5.2",
+    "bumpp": "^9.11.1",
+    "react": "^19.1.0",
+    "react-test-renderer": "^19.1.0",
     "tsup": "8.0.2",
-    "typescript": "^5.4.5",
-    "react": "^18.3.1",
-    "react-test-renderer": "^18.3.1",
-    "@types/react": "^18.3.1",
-    "@types/react-test-renderer": "^18.3.0",
+    "typescript": "^5.8.3",
     "unbuild": "^2.0.0",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.1"
   },
   "dependencies": {
     "mitt": "^3.0.1"
