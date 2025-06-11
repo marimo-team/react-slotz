@@ -1,5 +1,5 @@
 import React from "react";
-import { act, create } from "react-test-renderer";
+import { act, render } from "@testing-library/react";
 import { expect, it } from "vitest";
 import { Fill, Provider, Slot, SlotzController } from "..";
 
@@ -38,27 +38,26 @@ class Footer extends React.Component<any, any> {
 it("Fills the a simple slot", () => {
 	const Feature = () => <Toolbar.Item label="Home 1" />;
 
-	let fillComponent;
-	act(() => {
-		fillComponent = create(
-			<Provider>
-				<div>
-					<Toolbar />
-					<Feature />
-				</div>
-			</Provider>,
-		);
-	});
+	const { container } = render(
+		<Provider>
+			<div>
+				<Toolbar />
+				<Feature />
+			</div>
+		</Provider>,
+	);
 
-	expect(fillComponent).toMatchInlineSnapshot(`
+	expect(container).toMatchInlineSnapshot(`
 		<div>
-		  <nav>
-		    <button
-		      type="button"
-		    >
-		      Home 1
-		    </button>
-		  </nav>
+		  <div>
+		    <nav>
+		      <button
+		        type="button"
+		      >
+		        Home 1
+		      </button>
+		    </nav>
+		  </div>
 		</div>
 	`);
 });
@@ -76,41 +75,40 @@ it("Fills the appropriate slot", () => {
 		}
 	}
 
-	let fillComponent;
-	act(() => {
-		fillComponent = create(
-			<Provider>
-				<div>
-					<Toolbar />
-					<Footer />
-					<Feature />
-				</div>
-			</Provider>,
-		);
-	});
+	const { container } = render(
+		<Provider>
+			<div>
+				<Toolbar />
+				<Footer />
+				<Feature />
+			</div>
+		</Provider>,
+	);
 
-	expect(fillComponent).toMatchInlineSnapshot(`
+	expect(container).toMatchInlineSnapshot(`
 		<div>
-		  <nav>
-		    <button
-		      type="button"
-		    >
-		      Home 2
-		    </button>
-		    <button
-		      type="button"
-		    >
-		      About
-		    </button>
-		  </nav>
-		  <footer>
-		    <a
-		      href="twitter.com/reactjs"
-		    >
-		      Twitter
-		    </a>
-		  </footer>
-		  <div />
+		  <div>
+		    <nav>
+		      <button
+		        type="button"
+		      >
+		        Home 2
+		      </button>
+		      <button
+		        type="button"
+		      >
+		        About
+		      </button>
+		    </nav>
+		    <footer>
+		      <a
+		        href="twitter.com/reactjs"
+		      >
+		        Twitter
+		      </a>
+		    </footer>
+		    <div />
+		  </div>
 		</div>
 	`);
 });
@@ -132,19 +130,20 @@ it("allows slots to render null", () => {
 		</Fill>
 	);
 
-	let tree;
-	act(() => {
-		tree = create(
-			<Provider>
-				<div>
-					<Extensible />
-					<Insertion />
-				</div>
-			</Provider>,
-		);
-	});
+	const { container } = render(
+		<Provider>
+			<div>
+				<Extensible />
+				<Insertion />
+			</div>
+		</Provider>,
+	);
 
-	expect(tree).toMatchInlineSnapshot("<div />");
+	expect(container).toMatchInlineSnapshot(`
+		<div>
+		  <div />
+		</div>
+	`);
 });
 
 it("Replaces the contents of the slot with the matching fill when the slot's `name` property changes", () => {
@@ -184,67 +183,63 @@ it("Replaces the contents of the slot with the matching fill when the slot's `na
 		}
 	}
 
-	let fillComponent: any;
-	act(() => {
-		fillComponent = create(
-			<Provider>
-				<div>
-					<DynamicToolbar name="DynamicToolbar.Active" />
-					<Feature />
-				</div>
-			</Provider>,
-		);
-	});
+	const { container, rerender } = render(
+		<Provider>
+			<div>
+				<DynamicToolbar name="DynamicToolbar.Active" />
+				<Feature />
+			</div>
+		</Provider>,
+	);
 
-	expect(fillComponent).toMatchInlineSnapshot(`
+	expect(container).toMatchInlineSnapshot(`
 		<div>
-		  <nav>
-		    <button
-		      aria-selected={true}
-		      type="button"
-		    >
-		      Home 1
-		    </button>
-		  </nav>
+		  <div>
+		    <nav>
+		      <button
+		        aria-selected="true"
+		        type="button"
+		      >
+		        Home 1
+		      </button>
+		    </nav>
+		  </div>
 		</div>
 	`);
 
-	act(() => {
-		fillComponent.update(
-			<Provider>
-				<div>
-					<DynamicToolbar name="DynamicToolbar.Inactive" />
-					<Feature />
-				</div>
-			</Provider>,
-		);
-	});
+	rerender(
+		<Provider>
+			<div>
+				<DynamicToolbar name="DynamicToolbar.Inactive" />
+				<Feature />
+			</div>
+		</Provider>,
+	);
 
-	expect(fillComponent).toMatchInlineSnapshot(`
-    <div>
-      <nav>
-        <span>
-          Home 1
-        </span>
-      </nav>
-    </div>
-  `);
+	expect(container).toMatchInlineSnapshot(`
+		<div>
+		  <div>
+		    <nav>
+		      <span>
+		        Home 1
+		      </span>
+		    </nav>
+		  </div>
+		</div>
+	`);
 });
 
 it("can update a slot's children manually", () => {
 	const controller = new SlotzController();
 	const ref = Symbol("Toolbar.Item");
 
-	let fillComponent: any;
-	act(() => {
-		fillComponent = create(
-			<Provider controller={controller}>
-				<div>
-					<Toolbar />
-				</div>
-			</Provider>,
-		);
-	});
+	const { container } = render(
+		<Provider controller={controller}>
+			<div>
+				<Toolbar />
+			</div>
+		</Provider>,
+	);
 
 	act(() => {
 		controller.mount({
@@ -254,15 +249,17 @@ it("can update a slot's children manually", () => {
 		});
 	});
 
-	expect(fillComponent).toMatchInlineSnapshot(`
+	expect(container).toMatchInlineSnapshot(`
 		<div>
-		  <nav>
-		    <button
-		      type="button"
-		    >
-		      Home 1
-		    </button>
-		  </nav>
+		  <div>
+		    <nav>
+		      <button
+		        type="button"
+		      >
+		        Home 1
+		      </button>
+		    </nav>
+		  </div>
 		</div>
 	`);
 
@@ -274,15 +271,17 @@ it("can update a slot's children manually", () => {
 		});
 	});
 
-	expect(fillComponent).toMatchInlineSnapshot(`
+	expect(container).toMatchInlineSnapshot(`
 		<div>
-		  <nav>
-		    <button
-		      type="button"
-		    >
-		      Home 2
-		    </button>
-		  </nav>
+		  <div>
+		    <nav>
+		      <button
+		        type="button"
+		      >
+		        Home 2
+		      </button>
+		    </nav>
+		  </div>
 		</div>
 	`);
 
@@ -293,9 +292,11 @@ it("can update a slot's children manually", () => {
 		});
 	});
 
-	expect(fillComponent).toMatchInlineSnapshot(`
+	expect(container).toMatchInlineSnapshot(`
 		<div>
-		  <nav />
+		  <div>
+		    <nav />
+		  </div>
 		</div>
 	`);
 });

@@ -12,7 +12,7 @@ export interface Fillable {
 export interface Component {
 	name: Name;
 	fill: Fillable;
-	children: React.ReactChild[];
+	children: (React.ReactElement<any> | number | string)[];
 }
 
 export interface IManager {
