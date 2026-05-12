@@ -4,6 +4,7 @@
   "description": "Teleport React components into anywhere into the react-tree.",
   "author": "marimo",
   "license": "MIT",
+  "packageManager": "pnpm@10.28.2",
   "type": "module",
   "publishConfig": {
     "access": "public"
