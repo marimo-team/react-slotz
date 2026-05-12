@@ -24,7 +24,7 @@ jobs:
           node-version: lts/*
 
       - name: Install
-        run: pnpm install
+        run: pnpm install --ignore-scripts
 
       - name: Lint
         run: pnpm lint
@@ -43,7 +43,7 @@ jobs:
           node-version: lts/*
 
       - name: Install
-        run: pnpm install
+        run: pnpm install --ignore-scripts
 
       - name: Typecheck
         run: pnpm typecheck
@@ -62,7 +62,7 @@ jobs:
           node-version: lts/*
 
       - name: Install
-        run: pnpm install
+        run: pnpm install --ignore-scripts
 
       - name: Build
         run: pnpm build
