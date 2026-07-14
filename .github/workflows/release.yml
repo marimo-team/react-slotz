@@ -1,7 +1,6 @@
 name: Release
 
-permissions:
-  contents: write
+permissions: {}
 
 on:
   push:
@@ -27,3 +26,5 @@ jobs:
       - run: npx changelogithub
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    permissions:
+      contents: write
