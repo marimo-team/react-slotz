@@ -1,6 +1,3 @@
 {
-  "extends": [
-    "local>marimo-team/.github:renovate-config",
-    "config:recommended"
-  ]
+	"extends": ["local>marimo-team/.github:renovate-config", "config:recommended"]
 }
