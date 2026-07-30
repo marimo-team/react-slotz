@@ -55,7 +55,7 @@
     "tsup": "8.5.1",
     "typescript": "^6.0.0",
     "unbuild": "^3.0.0",
-    "vitest": "^1.6.1"
+    "vitest": "^4.0.0"
   },
   "dependencies": {
     "mitt": "^3.0.1"
